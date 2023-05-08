@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi_health import health
 from starlette.middleware.sessions import SessionMiddleware
@@ -20,6 +21,13 @@ def create_app():
 
     # Middlewares
     app.add_middleware(SessionMiddleware, secret_key=settings.GOOGLE.APP_KEY)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     # Exception handlers
     @app.exception_handler(ResourceNotFound)
