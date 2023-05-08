@@ -31,3 +31,5 @@ def get_current_admin(
 
     if not user.is_admin:
         raise Unauthorized
+
+    return user
