@@ -1,3 +1,3 @@
-from app.schemas.user import User
+from app.schemas.user import UserSchema
 
-__all__ = ["User"]
+__all__ = ["UserSchema"]

@@ -1,7 +1,11 @@
 from pydantic import AnyHttpUrl, BaseModel
 
 
-class User(BaseModel):
-    name: str
+class UserSchema(BaseModel):
+    class Config:
+        orm_mode = True
+
+    first_name: str
+    last_name: str
     email: str
     image: AnyHttpUrl

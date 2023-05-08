@@ -9,7 +9,7 @@ class Google(BaseModel):
 
 
 class Database(BaseModel):
-    URL: str = "sqlite:///:memory:"
+    URL: str
 
 
 class Settings(BaseSettings):
