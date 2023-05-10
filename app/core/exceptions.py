@@ -3,5 +3,9 @@ class ResourceNotFound(Exception):
         self.resource = resource.capitalize()
 
 
+class Unauthenticated(Exception):
+    pass
+
+
 class Unauthorized(Exception):
     pass

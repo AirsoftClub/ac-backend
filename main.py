@@ -1,12 +1,10 @@
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse
 from fastapi_health import health
-from starlette.middleware.sessions import SessionMiddleware
 
-from app.core.exceptions import ResourceNotFound, Unauthorized
-from app.core.settings import settings
-from app.endpoints import auth_router, health_checks, home_router, user_router
+from app.core.exceptions import ResourceNotFound, Unauthenticated, Unauthorized
+from app.endpoints import health_checks, home_router, user_router
 
 
 def create_app():
@@ -16,11 +14,9 @@ def create_app():
 
     # Add routers
     app.include_router(home_router, tags=["Home"])
-    app.include_router(auth_router, tags=["Auth"])
     app.include_router(user_router, prefix="/user", tags=["User"])
 
     # Middlewares
-    app.add_middleware(SessionMiddleware, secret_key=settings.GOOGLE.APP_KEY)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -39,7 +35,17 @@ def create_app():
 
     @app.exception_handler(Unauthorized)
     def handle_unauthorized(request: Request, exc: Unauthorized):
-        return RedirectResponse(request.url_for("login"))
+        return JSONResponse(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            content={"message": "Not authorized"},
+        )
+
+    @app.exception_handler(Unauthenticated)
+    def handle_unauthenticated(request: Request, exc: Unauthenticated):
+        return JSONResponse(
+            status_code=status.HTTP_403_FORBIDDEN,
+            content={"message": "Not authenticated"},
+        )
 
     return app
 

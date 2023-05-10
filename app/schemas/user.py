@@ -9,3 +9,4 @@ class UserSchema(BaseModel):
     last_name: str
     email: str
     image: AnyHttpUrl
+    is_admin: bool = False
