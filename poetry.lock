@@ -1335,6 +1335,24 @@ pymysql = ["pymysql"]
 sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
+name = "sqlalchemy-fields"
+version = "0.4.0"
+description = "SQLAlchemy fields"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "sqlalchemy_fields-0.4.0-py3-none-any.whl", hash = "sha256:0571d63edb0c6ba1d46b489b44df05e1beb1da779877b4199b06e60450ad9eac"},
+    {file = "sqlalchemy_fields-0.4.0.tar.gz", hash = "sha256:0a8e7fc8fda7ca2e8b807c1371011de66e9301f806e9d5579b59ab93346a4b94"},
+]
+
+[package.dependencies]
+sqlalchemy = ">=1.4"
+
+[package.extras]
+full = ["boto3 (>=1.25,<2.0)", "email-validator (>=1.3,<2.0)", "pillow (>=9.4,<10.0)"]
+
+[[package]]
 name = "stack-data"
 version = "0.6.2"
 description = "Extract data from python stack frames and tracebacks for informative displays"
@@ -1507,4 +1525,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "59d8f7ecbb35814e69f04b139702b794cccb1ff305d71c3c639270342ea93f16"
+content-hash = "37544a8abce219c374c52d005263983e2675f4d8c4c7ef95fdef60d43ac2ac20"

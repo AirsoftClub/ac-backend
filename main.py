@@ -1,10 +1,19 @@
-from fastapi import FastAPI, Request, status
+from fastapi import Depends, FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi_health import health
 
 from app.core.exceptions import ResourceNotFound, Unauthenticated, Unauthorized
-from app.endpoints import health_checks, home_router, register_admin, user_router
+from app.dependencies import get_current_user
+from app.endpoints import (
+    field_router,
+    health_checks,
+    home_router,
+    register_admin,
+    tag_router,
+    user_router,
+)
 
 
 def create_app():
@@ -13,8 +22,21 @@ def create_app():
     app.add_api_route("/health", health(health_checks), tags=["Health"])
 
     # Add routers
+    app.mount("/static", StaticFiles(directory="static"), name="static")
     app.include_router(home_router, tags=["Home"])
     app.include_router(user_router, prefix="/user", tags=["User"])
+    app.include_router(
+        field_router,
+        prefix="/fields",
+        tags=["Fields"],
+        dependencies=[Depends(get_current_user)],
+    )
+    app.include_router(
+        tag_router,
+        prefix="/tags",
+        tags=["Tags"],
+        dependencies=[Depends(get_current_user)],
+    )
 
     # Middlewares
     app.add_middleware(
