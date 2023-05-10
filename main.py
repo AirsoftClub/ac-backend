@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi_health import health
 
 from app.core.exceptions import ResourceNotFound, Unauthenticated, Unauthorized
-from app.endpoints import auth_router, health_checks, home_router, user_router
+from app.endpoints import health_checks, home_router, user_router
 
 
 def create_app():
@@ -14,7 +14,6 @@ def create_app():
 
     # Add routers
     app.include_router(home_router, tags=["Home"])
-    app.include_router(auth_router, tags=["Auth"])
     app.include_router(user_router, prefix="/user", tags=["User"])
 
     # Middlewares
