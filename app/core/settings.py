@@ -2,11 +2,16 @@ from pydantic import BaseModel, BaseSettings
 
 
 class Google(BaseModel):
-    AUTHORIZATION_URL: str = "https://www.googleapis.com/oauth2/v3/userinfo"
+    AUTHORIZATION_URL: str
 
 
 class Database(BaseModel):
     URL: str
+
+
+class Admin(BaseModel):
+    USER: str
+    PASSWORD: str
 
 
 class Settings(BaseSettings):
@@ -17,6 +22,7 @@ class Settings(BaseSettings):
 
     GOOGLE: Google
     DATABASE: Database
+    ADMIN: Admin
 
 
 settings = Settings()
