@@ -13,7 +13,7 @@ async def user_info(
     return user
 
 
-@router.get("/me/admin")
+@router.get("/me/admin", response_model=UserSchema)
 async def admin_info(
     user: dict = Depends(get_current_admin),
 ) -> UserSchema:
