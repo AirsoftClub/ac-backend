@@ -2,10 +2,7 @@ from pydantic import BaseModel, BaseSettings
 
 
 class Google(BaseModel):
-    APP_KEY: str
-    CLIENT_ID: str
-    CLIENT_SECRET: str
-    SERVER_METADATA_URL = "https://accounts.google.com/.well-known/openid-configuration"
+    AUTHORIZATION_URL: str = "https://www.googleapis.com/oauth2/v3/userinfo"
 
 
 class Database(BaseModel):

@@ -12,9 +12,9 @@ sqlalchemy = "^2.0.12"
 alembic = "^1.10.4"
 fastapi-health = "^0.4.0"
 itsdangerous = "^2.1.2"
-authlib = "^1.2.0"
 pydantic = {extras = ["dotenv"], version = "^1.10.7"}
 httpx = "^0.24.0"
+urllib3 = "<2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -22,6 +22,7 @@ uvicorn = "^0.22.0"
 pre-commit = "^3.3.1"
 ipdb = "^0.13.13"
 ipython = "^8.13.1"
+httpie = "^3.2.1"
 
 [build-system]
 requires = ["poetry-core"]
