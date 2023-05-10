@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi_health import health
 
 from app.core.exceptions import ResourceNotFound, Unauthenticated, Unauthorized
-from app.endpoints import health_checks, home_router, user_router
+from app.endpoints import health_checks, home_router, register_admin, user_router
 
 
 def create_app():
@@ -46,6 +46,9 @@ def create_app():
             status_code=status.HTTP_403_FORBIDDEN,
             content={"message": "Not authenticated"},
         )
+
+    # Register admin
+    register_admin(app)
 
     return app
 

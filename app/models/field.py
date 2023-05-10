@@ -23,3 +23,6 @@ class Field(Base):
     @property
     def is_active(self) -> bool:
         return self.deleted_at is None
+
+    def __repr__(self):
+        return f"<Field {self.name}>"
