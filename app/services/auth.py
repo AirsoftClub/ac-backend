@@ -3,18 +3,20 @@ from httpx import AsyncClient
 
 from app.core.exceptions import Unauthenticated
 from app.core.settings import settings
-from app.schemas import AuthProvider, UserSchema
+from app.schemas import AuthProvider, RegisterRequest, UserSchema
 
 
 class AuthService:
     def __init__(self, http_client: AsyncClient):
         self.http_client = http_client
 
-    async def authenticate(self, provider: AuthProvider, headers: dict):
-        if provider == AuthProvider.Google:
-            return await self.authenticate_google(headers)
+    async def register(self, register_data: RegisterRequest) -> UserSchema | None:
+        if register_data.provider == AuthProvider.Google:
+            return await self.google_register(register_data.token)
+        return None
 
-    async def authenticate_google(self, headers: dict) -> UserSchema:
+    async def google_register(self, token: str) -> UserSchema:
+        headers = {"Authorization": f"Bearer {token}"}
         response = await self.http_client.get(
             settings.GOOGLE.AUTHORIZATION_URL, headers=headers
         )

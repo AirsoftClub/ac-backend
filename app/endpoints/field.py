@@ -15,7 +15,7 @@ async def get_fields(
 
 
 @router.get("/tag/{tag_id}")
-async def get_fields_by_tag(
+async def get_fields_by_tag_id(
     tag_id: int,
     field_repository: FieldRepository = Depends(get_repository(FieldRepository)),
 ) -> list[FieldResponse]:

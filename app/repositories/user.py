@@ -21,7 +21,7 @@ class UserRepository(BaseRepository):
         """
         Get a user from the database given an email
         """
-        stmt = select(User).where(User.email == email)
+        stmt = select(User).where(User.email == email).where(User.deleted_at.is_(None))
         user = self.session.execute(stmt).scalars().first()
         if not user:
             # This exception will be handled by the exception handler

@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     GOOGLE: Google
     DATABASE: Database
     ADMIN: Admin
+    authjwt_secret_key: str = "secret"
 
 
 settings = Settings()
