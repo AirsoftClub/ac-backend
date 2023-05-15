@@ -6,7 +6,7 @@ from sqladmin import Admin, ModelView
 from sqladmin.authentication import AuthenticationBackend
 
 from app.core.settings import settings
-from app.models import Field, User, engine
+from app.models import Field, Tag, User, engine
 
 
 class AdminAuth(AuthenticationBackend):
@@ -33,10 +33,15 @@ class UserAdmin(ModelView, model=User):
 
 
 class FieldAdmin(ModelView, model=Field):
-    column_list = [Field.name, Field.owner]
+    column_list = [Field.name, Field.owner, Field.tags]
+
+
+class TagAdmin(ModelView, model=Tag):
+    column_list = [Tag.description, Tag.fields]
 
 
 def register_admin(app: FastAPI):
     admin = Admin(app, engine, authentication_backend=AdminAuth(""))
     admin.add_view(UserAdmin)
     admin.add_view(FieldAdmin)
+    admin.add_view(TagAdmin)

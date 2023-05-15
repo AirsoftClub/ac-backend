@@ -4,6 +4,7 @@ from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base
+from app.models.tag import tag_field
 
 
 class Field(Base):
@@ -12,13 +13,14 @@ class Field(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
     description = Column(String)
-    created_at = Column(DateTime, default=datetime.now)
-    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     deleted_at = Column(DateTime, nullable=True)
 
     # Relationship
     owner_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", back_populates="owned_fields")
+    tags = relationship("Tag", secondary=tag_field, back_populates="fields")
 
     @property
     def is_active(self) -> bool:

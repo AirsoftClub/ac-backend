@@ -1,18 +1,21 @@
 from fastapi import Depends
+from fastapi_jwt_auth import AuthJWT
 
 from app.core.exceptions import Unauthorized
-from app.dependencies.auth import authenticate_user
 from app.dependencies.repository import get_repository
 from app.models import User
 from app.repositories import UserRepository
-from app.schemas import UserSchema
 
 
 def get_current_user(
-    user_data: UserSchema = Depends(authenticate_user),
     user_repo: UserRepository = Depends(get_repository(UserRepository)),
+    Authorize: AuthJWT = Depends(),
 ) -> User:
-    return user_repo.create_or_update(user_data)
+    Authorize.jwt_required()
+
+    user_email = Authorize.get_jwt_subject()
+    user = user_repo.get_by_email(user_email)
+    return user
 
 
 def get_current_admin(
