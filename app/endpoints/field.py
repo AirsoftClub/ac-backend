@@ -14,6 +14,14 @@ async def get_fields(
     return field_repository.get_all()
 
 
+@router.get("/{field_id}")
+async def get_field(
+    field_id: int,
+    field_repository: FieldRepository = Depends(get_repository(FieldRepository)),
+) -> FieldResponse | None:
+    return field_repository.get(field_id)
+
+
 @router.get("/tag/{tag_id}")
 async def get_fields_by_tag_id(
     tag_id: int,

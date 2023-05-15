@@ -18,5 +18,5 @@ async def get_tags(
 async def get_tag(
     tag_id: int,
     tag_repository: TagRepository = Depends(get_repository(TagRepository)),
-) -> TagResponse:
+) -> TagResponse | None:
     return tag_repository.get(tag_id)
