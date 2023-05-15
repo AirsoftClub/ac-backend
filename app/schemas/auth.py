@@ -13,6 +13,12 @@ class RegisterRequest(BaseModel):
     token: str
 
 
-class RegisterResponse(BaseModel):
+class AccessTokenResponse(BaseModel):
     access_token: str
     refresh_token: str
+    expires_at: int
+
+
+class RefreshTokenResponse(BaseModel):
+    access_token: str
+    expires_at: int
