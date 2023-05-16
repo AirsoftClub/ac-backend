@@ -5,7 +5,7 @@ from httpx import AsyncClient
 from app.dependencies import get_http_client
 from app.dependencies.repository import get_repository
 from app.repositories import UserRepository
-from app.schemas import RegisterRequest, AccessTokenResponse
+from app.schemas import AccessTokenResponse, RegisterRequest
 from app.schemas.auth import RefreshTokenResponse
 from app.services import AuthService
 from app.services.jwt import JWTService

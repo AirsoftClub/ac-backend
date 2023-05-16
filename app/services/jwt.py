@@ -1,5 +1,6 @@
-from calendar import timegm
 import datetime
+from calendar import timegm
+
 from fastapi_jwt_auth import AuthJWT
 
 from app.schemas.auth import AccessTokenResponse, RefreshTokenResponse
