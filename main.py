@@ -33,7 +33,7 @@ def create_app():
         field_router,
         prefix="/fields",
         tags=["Fields"],
-        # dependencies=[Depends(get_current_user)],
+        dependencies=[Depends(get_current_user)],
     )
     app.include_router(
         tag_router,
