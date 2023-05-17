@@ -11,8 +11,8 @@ class FieldResponse(BaseModel):
     name: str
     description: str
     tags: list[TagResponse]
-    latitude: float
-    longitude: float
+    latitude: float = None
+    longitude: float = None
 
 
 class FieldDistanceResponse(FieldResponse):

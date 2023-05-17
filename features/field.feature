@@ -16,12 +16,18 @@ Feature: API Fields
         description: Description Field1
         tags: []
         deleted_at: 2020-01-01
+        latitude: 1.23456789
+        longitude: 9.87654321
       - name: Field2
         description: Description Field2
         tags: []
+        latitude: 1.23456789
+        longitude: 9.87654321
       - name: Field3
         description: Description Field3
         tags: []
+        latitude: 1.23456789
+        longitude: 9.87654321
       """
     When I do a GET request to "/fields"
     Then I get a 200 response
@@ -31,10 +37,14 @@ Feature: API Fields
         name: Field3
         description: Description Field3
         tags: []
+        latitude: 1.23456789
+        longitude: 9.87654321
       - id: 2
         name: Field2
         description: Description Field2
         tags: []
+        latitude: 1.23456789
+        longitude: 9.87654321
       """
 
   Scenario: Listing empty Fields
@@ -52,6 +62,8 @@ Feature: API Fields
         name: Field1
         description: Description Field1
         tags: []
+        latitude: 1.23456789
+        longitude: 9.87654321
       """
     When I do a GET request to "/fields/1"
     Then I get a 200 response
@@ -60,6 +72,8 @@ Feature: API Fields
       id: 1
       name: Field1
       description: Description Field1
+      latitude: 1.23456789
+      longitude: 9.87654321
       tags: []
       """
 
@@ -77,6 +91,8 @@ Feature: API Fields
       - id: 1
         name: Field1
         description: Description Field1
+        latitude: 1.23456789
+        longitude: 9.87654321
         tags:
           - description: Tag1
       """
@@ -90,4 +106,6 @@ Feature: API Fields
         tags:
           - id: 1
             description: Tag1
+        latitude: 1.23456789
+        longitude: 9.87654321
       """

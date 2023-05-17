@@ -16,8 +16,8 @@ class Field(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     deleted_at = Column(DateTime, nullable=True)
-    latitude = Column(Numeric(precision=9, scale=6), nullable=True)
-    longitude = Column(Numeric(precision=9, scale=6), nullable=True)
+    latitude = Column(Numeric(precision=9), nullable=True)
+    longitude = Column(Numeric(precision=9), nullable=True)
 
     # Relationship
     owner_id = Column(Integer, ForeignKey("users.id"))

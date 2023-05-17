@@ -162,5 +162,5 @@ cython_debug/
 # Pyenv
 .python-version
 
-# Test db
-test_db.db
+# Dev db
+*.db
