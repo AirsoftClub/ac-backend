@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 
+from app.core.exceptions import ResourceNotFound
 from app.dependencies import get_repository
 from app.repositories import FieldRepository
 from app.schemas import FieldDistanceResponse, FieldResponse
@@ -41,7 +42,10 @@ async def get_field(
     field_id: int,
     field_repository: FieldRepository = Depends(get_repository(FieldRepository)),
 ) -> FieldResponse | None:
-    return field_repository.get(field_id)
+    field = field_repository.get(field_id)
+    if not field:
+        raise ResourceNotFound("Field")
+    return field
 
 
 @router.get("/tag/{tag_id}")

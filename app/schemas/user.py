@@ -1,5 +1,7 @@
 from pydantic import AnyHttpUrl, BaseModel
 
+from app.schemas.squad import SquadResponse
+
 
 class UserSchema(BaseModel):
     class Config:
@@ -8,5 +10,5 @@ class UserSchema(BaseModel):
     first_name: str
     last_name: str
     email: str
-    image: AnyHttpUrl
-    is_admin: bool = False
+    image: AnyHttpUrl = None
+    squads: list[SquadResponse] = []

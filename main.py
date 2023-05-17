@@ -15,9 +15,11 @@ from app.endpoints import (
     health_checks,
     home_router,
     register_admin,
+    squad_router,
     tag_router,
     user_router,
 )
+from app.models import Base, engine
 
 
 def create_app():
@@ -40,6 +42,12 @@ def create_app():
         prefix="/tags",
         tags=["Tags"],
         dependencies=[Depends(get_current_user)],
+    )
+    app.include_router(
+        squad_router,
+        prefix="/squads",
+        tags=["Squads"],
+        # dependencies=[Depends(get_current_user)],
     )
 
     # Middlewares
@@ -87,6 +95,9 @@ def create_app():
 
     # Register admin
     register_admin(app)
+
+    # Create tables
+    Base.metadata.create_all(bind=engine)
 
     return app
 

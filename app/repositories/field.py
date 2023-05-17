@@ -6,7 +6,11 @@ from app.repositories.base import BaseRepository
 
 class FieldRepository(BaseRepository):
     def get_all(self) -> list[Field]:
-        stmt = select(Field).where(Field.deleted_at.is_(None))
+        stmt = (
+            select(Field)
+            .where(Field.deleted_at.is_(None))
+            .order_by(Field.created_at.desc())
+        )
         return self.session.execute(stmt).scalars().all()
 
     def get(self, id: int) -> Field | None:
