@@ -1,13 +1,14 @@
-from app.schemas.auth import AuthProvider, RegisterRequest, AccessTokenResponse
-from app.schemas.field import FieldResponse
+from app.schemas.auth import AccessTokenResponse, AuthProvider, RegisterRequest
+from app.schemas.field import FieldDistanceResponse, FieldResponse
 from app.schemas.tag import TagResponse
 from app.schemas.user import UserSchema
 
 __all__ = [
-    "UserSchema",
-    "AuthProvider",
     "AccessTokenResponse",
-    "TagResponse",
+    "AuthProvider",
+    "FieldDistanceResponse",
     "FieldResponse",
     "RegisterRequest",
+    "TagResponse",
+    "UserSchema",
 ]
