@@ -109,3 +109,39 @@ Feature: API Fields
         latitude: 1.23456789
         longitude: 9.87654321
       """
+
+  Scenario: Listing Field by location
+    Given These field exists with the following data
+      """
+      - id: 1
+        name: Field1
+        description: Description Field1
+        latitude: 0.0
+        longitude: 0.0
+        tags: []
+      - id: 2
+        name: Field2
+        description: Description Field2
+        latitude: 1.1
+        longitude: 2.2
+        tags: []
+      """
+    When I do a GET request to "/fields/location?latitude=1.23456789&longitude=9.87654321"
+    Then I get a 200 response
+    And The response JSON is:
+      """
+      - id: 2
+        name: Field2
+        description: Description Field2
+        latitude: 1.1
+        longitude: 2.2
+        distance: 853.54623
+        tags: []
+      - id: 1
+        name: Field1
+        description: Description Field1
+        tags: []
+        latitude: 0.0
+        longitude: 0.0
+        distance: 1106.6836
+      """

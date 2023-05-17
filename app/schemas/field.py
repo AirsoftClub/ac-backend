@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from app.schemas.tag import TagResponse
 
@@ -20,3 +20,7 @@ class FieldDistanceResponse(FieldResponse):
         orm_mode = False
 
     distance: float
+
+    @validator("distance")
+    def truncate_distance(cls, v):
+        return round(v, 5)
