@@ -21,13 +21,13 @@ async def register(
     jwt_service: JWTService = Depends(),
 ):
     user_data = await AuthService(http_client).register(register_data)
-    user = user_repo.create_or_update(user_data)
+    user = await user_repo.create_or_update(user_data)
 
     return jwt_service.create_access_token(subject=user.email)
 
 
 @router.post("/refresh", response_model=RefreshTokenResponse)
-def refresh(
+async def refresh(
     Authorize: AuthJWT = Depends(),
     user_repo: UserRepository = Depends(get_repository(UserRepository)),
     jwt_service: JWTService = Depends(),
@@ -37,6 +37,6 @@ def refresh(
     email = Authorize.get_jwt_subject()
 
     # Check if the user exists in the database
-    user_repo.get_by_email(email)
+    await user_repo.get_by_email(email)
 
     return jwt_service.refresh_token(subject=email)

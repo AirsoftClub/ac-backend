@@ -6,26 +6,26 @@ from app.repositories.base import BaseRepository
 
 
 class FieldRepository(BaseRepository):
-    def get_all(self) -> list[Field]:
+    async def get_all(self) -> list[Field]:
         stmt = (
             select(Field)
             .where(Field.deleted_at.is_(None))
             .order_by(Field.created_at.desc())
         )
-        return self.session.execute(stmt).scalars().all()
+        return (await self.session.execute(stmt)).scalars().all()
 
-    def get(self, id: int) -> Field | None:
+    async def get(self, id: int) -> Field | None:
         stmt = select(Field).where(Field.id == id)
-        tag = self.session.execute(stmt).scalars().first()
+        tag = (await self.session.execute(stmt)).scalars().first()
         if not tag:
             raise ResourceNotFound("Field")
         return tag
 
-    def get_by_tag(self, tag_id: int) -> list[Field]:
+    async def get_by_tag(self, tag_id: int) -> list[Field]:
         stmt = select(Field).where(Field.tags.any(Tag.id == tag_id))
-        return self.session.execute(stmt).scalars().all()
+        return (await self.session.execute(stmt)).scalars().all()
 
-    def get_all_by_distance(
+    async def get_all_by_distance(
         self, latitude: float, longitude: float
     ) -> list[tuple[Field, float]]:
         distance = (
@@ -44,4 +44,4 @@ class FieldRepository(BaseRepository):
             .where(Field.deleted_at.is_(None))
             .order_by(distance.asc())
         )
-        return self.session.execute(stmt).all()
+        return (await self.session.execute(stmt)).all()

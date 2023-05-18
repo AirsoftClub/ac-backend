@@ -2,6 +2,7 @@ from unittest import mock
 
 import yaml
 from behave import given, step
+from behave.api.async_step import async_run_until_complete
 from fastapi_jwt_auth import AuthJWT
 from sqlalchemy import select
 
@@ -24,9 +25,10 @@ def create_user(context):
 
 
 @step("I am logged with the email {email}")
-def login(context, email):
+@async_run_until_complete
+async def login(context, email):
     stmt = select(User).where(User.email == email)
-    user = context.session.execute(stmt).scalars().first()
+    user = (await context.session.execute(stmt)).scalars().first()
     if not user:
         raise Exception(f"User with email {email} does not exist")
 

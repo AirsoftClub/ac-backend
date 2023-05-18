@@ -2,6 +2,7 @@ import respx
 from behave import fixture, use_fixture
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.core.settings import Settings
@@ -15,11 +16,19 @@ def init_db(context):
     context.engine = create_engine(
         context.settings.DATABASE.URL, connect_args={"check_same_thread": False}
     )
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=context.engine)
+    SyncSessionLocal = sessionmaker(
+        autocommit=False, autoflush=False, bind=context.engine
+    )
 
     Base.metadata.drop_all(bind=context.engine)
     Base.metadata.create_all(bind=context.engine)
 
+    engine = create_async_engine("sqlite+aiosqlite:///./test.db")
+    SessionLocal = sessionmaker(
+        autocommit=False, autoflush=False, bind=engine, class_=AsyncSession
+    )
+
+    context.sync_session = SyncSessionLocal()
     context.session = SessionLocal()
 
 
@@ -42,7 +51,7 @@ def init_http_mock(context):
 
 def register_sqlalchemy_factory(context):
     for sqlalchemy_factory in sqlalchemy_factories:
-        sqlalchemy_factory._meta.sqlalchemy_session = context.session
+        sqlalchemy_factory._meta.sqlalchemy_session = context.sync_session
 
 
 def before_all(context):

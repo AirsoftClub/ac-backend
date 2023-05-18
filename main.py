@@ -18,7 +18,6 @@ from app.endpoints import (
     squad_router,
     user_router,
 )
-from app.models import Base, engine
 
 
 def create_app():
@@ -90,7 +89,7 @@ def create_app():
     register_admin(app)
 
     # Create tables
-    Base.metadata.create_all(bind=engine)
+    # Base.metadata.create_all(bind=engine)
 
     return app
 

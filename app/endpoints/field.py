@@ -13,7 +13,7 @@ router = APIRouter()
 async def get_fields(
     field_repository: FieldRepository = Depends(get_repository(FieldRepository)),
 ) -> list[FieldResponse]:
-    return field_repository.get_all()
+    return await field_repository.get_all()
 
 
 @router.get("/location", response_model=list[FieldDistanceResponse])
@@ -32,7 +32,9 @@ async def get_fields_by_location(
             "longitude": field.longitude,
             "distance": distance,
         }
-        for field, distance in field_repository.get_all_by_distance(latitude, longitude)
+        for field, distance in await field_repository.get_all_by_distance(
+            latitude, longitude
+        )
     ]
 
 
@@ -41,7 +43,7 @@ async def get_field(
     field_id: int,
     field_repository: FieldRepository = Depends(get_repository(FieldRepository)),
 ):
-    return field_repository.get(field_id)
+    return await field_repository.get(field_id)
 
 
 @router.get("/tag/{tag_id}", response_model=list[FieldResponse])
@@ -49,4 +51,4 @@ async def get_fields_by_tag_id(
     tag_id: int,
     field_repository: FieldRepository = Depends(get_repository(FieldRepository)),
 ):
-    return field_repository.get_by_tag(tag_id)
+    return await field_repository.get_by_tag(tag_id)
