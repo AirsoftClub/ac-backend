@@ -46,6 +46,7 @@ repos:
       additional_dependencies:
         - 'flake8-comprehensions'
         - 'flake8-simplify'
+        - 'flake8-alphabetize'
   - repo: https://github.com/ducminh-phan/reformat-gherkin
     rev: v3.0.1
     hooks:

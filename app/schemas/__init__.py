@@ -6,6 +6,7 @@ from app.schemas.user import UserSchema
 
 __all__ = [
     "AccessTokenResponse",
+    "AddMemberRequest",
     "AuthProvider",
     "AuthProvider",
     "FieldDistanceResponse",
@@ -17,5 +18,4 @@ __all__ = [
     "SquadResponse",
     "TagResponse",
     "UserSchema",
-    "AddMemberRequest",
 ]

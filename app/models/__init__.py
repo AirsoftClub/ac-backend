@@ -9,8 +9,8 @@ __all__ = [
     "Base",
     "Field",
     "SessionLocal",
+    "Squad",
     "Tag",
     "User",
-    "Squad",
     "engine",
 ]
