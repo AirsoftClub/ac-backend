@@ -14,7 +14,10 @@ class SquadRepository(BaseRepository):
         stmt = (
             select(Squad).where(Squad.id == squad_id).where(Squad.deleted_at.is_(None))
         )
-        return self.session.execute(stmt).scalars().first()
+        squad = self.session.execute(stmt).scalars().first()
+        if not squad:
+            raise ResourceNotFound("Squad")
+        return squad
 
     def add_member(self, squad_id: int, current_user: User, user: User) -> None:
         squad = self.get(squad_id)

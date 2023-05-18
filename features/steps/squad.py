@@ -1,6 +1,7 @@
 import yaml
 from behave import step
 
+from app.repositories import UserRepository
 from tests.factories import SquadFactory, UserFactory
 
 
@@ -12,5 +13,10 @@ def create_squads(context):
         members = []
         for member in members_data:
             members.append(UserFactory(**member))
+        leader = squad_data.pop("leader", None)
 
-        SquadFactory(**squad_data, members=members)
+        if leader:
+            leader = UserRepository(context.session).get_by_email(leader)
+            SquadFactory(**squad_data, members=members, leader=leader)
+        else:
+            SquadFactory(**squad_data, members=members)

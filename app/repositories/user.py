@@ -7,6 +7,13 @@ from app.schemas import UserSchema
 
 
 class UserRepository(BaseRepository):
+    def get(self, user_id: int) -> User:
+        stmt = select(User).where(User.id == user_id).where(User.deleted_at.is_(None))
+        user = self.session.execute(stmt).scalars().first()
+        if not user:
+            raise ResourceNotFound("user")
+        return user
+
     def create(self, user_data: UserSchema) -> User:
         """
         Create a new user in the database
@@ -23,8 +30,8 @@ class UserRepository(BaseRepository):
         """
         stmt = select(User).where(User.email == email).where(User.deleted_at.is_(None))
         user = self.session.execute(stmt).scalars().first()
+
         if not user:
-            # This exception will be handled by the exception handler
             raise ResourceNotFound("user")
 
         return user

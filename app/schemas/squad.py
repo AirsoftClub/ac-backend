@@ -19,3 +19,7 @@ class SquadResponse(BaseModel):
 
 class SquadMembersResponse(SquadResponse):
     members: list[Member] = []
+
+
+class AddMemberRequest(BaseModel):
+    user_id: int
