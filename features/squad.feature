@@ -63,6 +63,9 @@ Feature: Squad API
         - first_name: Name1
           last_name: Lastname1
           email: name1@email.com
+        - first_name: Name2
+          last_name: Lastname2
+          email: name2@email.com
       """
     When I do a GET request to "/squads/1/"
     Then I get a 200 response
@@ -73,6 +76,8 @@ Feature: Squad API
       members:
       - full_name: Name1 Lastname1
         id: 2
+      - full_name: Name2 Lastname2
+        id: 3
       """
 
   Scenario: Listing missing squad
@@ -105,6 +110,16 @@ Feature: Squad API
     And The response JSON is:
       """
       message: Member added
+      """
+    And I do a GET request to "/squads/1/"
+    And I get a 200 response
+    And The response JSON is:
+      """
+      name: Squad1
+      emblem: emblem1
+      members:
+      - full_name: New Member
+        id: 2
       """
 
   Scenario: Adding a non existent member to a squad
