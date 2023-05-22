@@ -9,6 +9,11 @@ class Member(BaseModel):
     full_name: str
 
 
+class CreateSquad(BaseModel):
+    name: str
+    emblem: str
+
+
 class SquadResponse(BaseModel):
     class Config:
         orm_mode = True

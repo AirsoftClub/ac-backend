@@ -7,6 +7,9 @@ from httpx import Response
 
 @step('I do a {verb} request to "{url}"')
 def do_request(context, verb, url):
+    if not url.endswith("/"):
+        url += "/"
+
     context.response = getattr(context.client, verb.lower())(
         url, headers=context.headers
     )
