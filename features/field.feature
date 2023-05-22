@@ -85,7 +85,7 @@ Feature: API Fields
       detail: Field not found
       """
 
-  Scenario: Listing empty Fields by tag
+  Scenario: Get Field by tag
     Given These field exists with the following data
       """
       - id: 1
