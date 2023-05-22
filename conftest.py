@@ -7,9 +7,7 @@ from app.core.settings import Settings
 from app.dependencies import get_current_user, get_db
 from app.models import Base
 from main import create_app
-from tests.factories.user import UserFactory
-
-sqlalchemy_factories = [UserFactory]
+from tests.factories import UserFactory, sqlalchemy_factories
 
 
 @pytest.fixture(name="settings")

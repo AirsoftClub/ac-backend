@@ -36,15 +36,15 @@ async def get_fields_by_location(
     ]
 
 
-@router.get("/{field_id}")
+@router.get("/{field_id}", response_model=FieldResponse)
 async def get_field(
     field_id: int,
     field_repository: FieldRepository = Depends(get_repository(FieldRepository)),
-) -> FieldResponse | None:
+):
     return field_repository.get(field_id)
 
 
-@router.get("/tag/{tag_id}")
+@router.get("/tag/{tag_id}", response_model=list[FieldResponse])
 async def get_fields_by_tag_id(
     tag_id: int,
     field_repository: FieldRepository = Depends(get_repository(FieldRepository)),

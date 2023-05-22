@@ -1,17 +1,25 @@
 from sqlalchemy import func, select
 
+from app.core.exceptions import ResourceNotFound
 from app.models import Field, Tag
 from app.repositories.base import BaseRepository
 
 
 class FieldRepository(BaseRepository):
     def get_all(self) -> list[Field]:
-        stmt = select(Field).where(Field.deleted_at.is_(None))
+        stmt = (
+            select(Field)
+            .where(Field.deleted_at.is_(None))
+            .order_by(Field.created_at.desc())
+        )
         return self.session.execute(stmt).scalars().all()
 
     def get(self, id: int) -> Field | None:
         stmt = select(Field).where(Field.id == id)
-        return self.session.execute(stmt).scalars().first()
+        tag = self.session.execute(stmt).scalars().first()
+        if not tag:
+            raise ResourceNotFound("Field")
+        return tag
 
     def get_by_tag(self, tag_id: int) -> list[Field]:
         stmt = select(Field).where(Field.tags.any(Tag.id == tag_id))
