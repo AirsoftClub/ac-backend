@@ -5,14 +5,15 @@ class Member(BaseModel):
     class Config:
         orm_mode = True
 
-    full_name: str
     id: int
+    full_name: str
 
 
 class SquadResponse(BaseModel):
     class Config:
         orm_mode = True
 
+    id: int
     name: str
     emblem: str
 

@@ -32,14 +32,17 @@ Feature: Squad API
     And The response JSON is:
       """
       - name: Squad1
+        id: 1
         emblem: emblem1
         members:
         - full_name: Name1 Lastname1
           id: 2
       - name: Squad2
+        id: 2
         emblem: emblem2
         members: []
       - name: Squad3
+        id: 3
         emblem: emblem3
         members:
         - full_name: Name2 Lastname2
@@ -67,11 +70,12 @@ Feature: Squad API
           last_name: Lastname2
           email: name2@email.com
       """
-    When I do a GET request to "/squads/1/"
+    When I do a GET request to "/squads/1"
     Then I get a 200 response
     And The response JSON is:
       """
       name: Squad1
+      id: 1
       emblem: emblem1
       members:
       - full_name: Name1 Lastname1
@@ -116,6 +120,7 @@ Feature: Squad API
     And The response JSON is:
       """
       name: Squad1
+      id: 1
       emblem: emblem1
       members:
       - full_name: New Member
