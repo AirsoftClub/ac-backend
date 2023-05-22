@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from app.dependencies import get_current_user, get_repository
 from app.models import User
 from app.repositories import SquadRepository, UserRepository
-from app.schemas import AddMemberRequest, SquadMembersResponse
+from app.schemas import AddMemberRequest, CreateSquad, SquadMembersResponse
 
 router = APIRouter()
 
@@ -35,3 +35,12 @@ def add_member(
     user = user_repository.get(user_id)
     squad_repository.add_member(squad_id, current_user, user)
     return {"message": "Member added"}
+
+
+@router.post("/", response_model=SquadMembersResponse)
+def create_squad(
+    squad_data: CreateSquad,
+    current_user: User = Depends(get_current_user),
+    squad_repository: SquadRepository = Depends(get_repository(SquadRepository)),
+):
+    return squad_repository.create(squad_data, leader=current_user)

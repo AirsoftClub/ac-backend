@@ -3,9 +3,18 @@ from sqlalchemy import select
 from app.core.exceptions import ResourceNotFound, Unauthorized
 from app.models import Squad, User
 from app.repositories.base import BaseRepository
+from app.schemas import CreateSquad
 
 
 class SquadRepository(BaseRepository):
+    def create(self, data: CreateSquad, leader: User) -> Squad:
+        instance = Squad(**data.dict(), leader=leader)
+        self.session.add(instance)
+        self.session.commit()
+        self.session.refresh(instance)
+
+        return instance
+
     def get_all(self) -> list[Squad]:
         stmt = select(Squad).where(Squad.deleted_at.is_(None))
         return self.session.execute(stmt).scalars().all()

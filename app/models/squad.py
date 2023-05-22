@@ -4,6 +4,7 @@ from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base
+from app.models.file import HasFiles
 
 squad_user = Table(
     "squad_user",
@@ -13,7 +14,7 @@ squad_user = Table(
 )
 
 
-class Squad(Base):
+class Squad(HasFiles, Base):
     __tablename__ = "squads"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True, index=True)

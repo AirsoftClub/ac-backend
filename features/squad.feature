@@ -172,3 +172,54 @@ Feature: Squad API
       """
       detail: Not authorized
       """
+
+  Scenario: Create squad
+    When I do a POST request to "/squads/" with the following data:
+      """
+      name: New Squad
+      emblem: new emblem
+      """
+    Then I get a 200 response
+    And The response JSON is:
+      """
+      id: 1
+      name: New Squad
+      emblem: new emblem
+      members: []
+      """
+
+  Scenario: Create squad and assign members
+    Given A user exists with the following data:
+      """
+      first_name: Some
+      last_name: User
+      email: some_user@email.com
+      """
+    When I do a POST request to "/squads/" with the following data:
+      """
+      name: New Squad
+      emblem: new emblem
+      """
+    And I do a GET request to "/squads/1"
+    And The response JSON is:
+      """
+      id: 1
+      name: New Squad
+      emblem: new emblem
+      members: []
+      """
+    And I do a POST request to "/squads/1/members/" with the following data:
+      """
+      user_id: 2
+      """
+    Then I do a GET request to "/squads/1/"
+    And I get a 200 response
+    And The response JSON is:
+      """
+      id: 1
+      name: New Squad
+      emblem: new emblem
+      members:
+        - full_name: Some User
+          id: 2
+      """
