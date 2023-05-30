@@ -1,3 +1,5 @@
+from tempfile import TemporaryDirectory
+
 import respx
 from behave import fixture, use_fixture
 from fastapi.testclient import TestClient
@@ -5,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.core.settings import Settings
-from app.dependencies import get_db
+from app.dependencies import get_db, get_settings
 from app.models import Base
 from main import create_app
 from tests.factories import sqlalchemy_factories
@@ -26,6 +28,7 @@ def init_db(context):
 def init_app(context):
     app = create_app()
     app.dependency_overrides[get_db] = lambda: context.session
+    app.dependency_overrides[get_settings] = lambda: context.settings
     context.app = app
 
 
@@ -46,7 +49,10 @@ def register_sqlalchemy_factory(context):
 
 
 def before_all(context):
-    context.settings = Settings(DATABASE={"URL": "sqlite:///./test.db"})
+    context.temp_dir = TemporaryDirectory()
+    context.settings = Settings(
+        DATABASE={"URL": "sqlite:///./test.db"}, STATIC_FOLDER=context.temp_dir.name
+    )
 
 
 def before_scenario(context, scenario):

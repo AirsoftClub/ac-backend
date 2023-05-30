@@ -40,7 +40,7 @@ def create_app():
         squad_router,
         prefix="/squads",
         tags=["Squads"],
-        dependencies=[Depends(get_current_user)],
+        # dependencies=[Depends(get_current_user)],
     )
 
     # Middlewares

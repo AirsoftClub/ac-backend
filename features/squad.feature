@@ -223,3 +223,14 @@ Feature: Squad API
         - full_name: Some User
           id: 2
       """
+
+  Scenario: Adding images to the squad
+    Given These squads exists with the following data
+      """
+      - name: Squad1
+        emblem: emblem1
+        leader: john_doe@email.com
+        members: []
+      """
+    Then I do a PUT request to "/squads/1/images/" with 3 images in the form data
+    And I get a 200 response

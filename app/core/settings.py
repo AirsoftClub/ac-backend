@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic import BaseModel, BaseSettings
 
 
@@ -24,6 +26,7 @@ class Settings(BaseSettings):
     DATABASE: Database
     ADMIN: Admin
     authjwt_secret_key: str = "secret"
+    STATIC_FOLDER: Path = Path("static").resolve()
 
 
 settings = Settings()
