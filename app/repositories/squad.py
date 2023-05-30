@@ -13,9 +13,6 @@ class SquadRepository(BaseRepository):
         instance = Squad(**data.dict(), leader=leader)
         self.session.add(instance)
         self.session.commit()
-        self.session.refresh(instance)
-
-        return instance
 
     def get_all(self) -> list[Squad]:
         stmt = select(Squad).where(Squad.deleted_at.is_(None))

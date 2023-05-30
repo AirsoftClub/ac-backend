@@ -1,3 +1,5 @@
+from tempfile import TemporaryFile
+
 import respx
 import yaml
 from behave import step
@@ -7,11 +9,17 @@ from httpx import Response
 
 @step('I do a {verb} request to "{url}"')
 def do_request(context, verb, url):
-    if not url.endswith("/"):
-        url += "/"
-
     context.response = getattr(context.client, verb.lower())(
         url, headers=context.headers
+    )
+
+
+@step('I do a {verb} request to "{url}" with {amount:d} images in the form data')
+def do_request_with_image_body(context, verb, url, amount):
+    files = [("files", TemporaryFile()) for _ in range(amount)]
+
+    context.response = getattr(context.client, verb.lower())(
+        url, headers=context.headers, files=files
     )
 
 
