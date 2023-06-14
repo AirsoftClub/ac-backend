@@ -13,7 +13,7 @@ class Member(BaseModel):
 
 class CreateSquad(BaseModel):
     name: str
-    emblem: str
+    emblem: str | None
 
 
 class SquadResponse(HasFiles, BaseModel):
