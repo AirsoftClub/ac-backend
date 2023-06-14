@@ -1,6 +1,6 @@
 from sqlalchemy import select
 
-from app.core.exceptions import ResourceNotFound, Unauthorized
+from app.core.exceptions import ResourceNotFound, ResourceNotUnique, Unauthorized
 from app.models import Squad, User
 from app.repositories.base import BaseRepository
 from app.schemas import CreateSquad
@@ -8,6 +8,8 @@ from app.schemas import CreateSquad
 
 class SquadRepository(BaseRepository):
     def create(self, data: CreateSquad, leader: User) -> Squad:
+        if self.get_by_name(data.name):
+            raise ResourceNotUnique("Squad")
         instance = Squad(**data.dict(), leader=leader)
         self.session.add(instance)
         self.session.commit()
@@ -40,3 +42,8 @@ class SquadRepository(BaseRepository):
         squad.members.append(user)
         self.session.add(squad)
         self.session.commit()
+
+    def get_by_name(self, name: str) -> Squad | None:
+        stmt = select(Squad).where(Squad.name == name)
+        result = self.session.execute(stmt).scalars().first()
+        return result
