@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from app.schemas.files import HasFiles
+
 
 class Member(BaseModel):
     class Config:
@@ -14,7 +16,7 @@ class CreateSquad(BaseModel):
     emblem: str
 
 
-class SquadResponse(BaseModel):
+class SquadResponse(HasFiles, BaseModel):
     class Config:
         orm_mode = True
 

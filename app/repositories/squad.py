@@ -7,10 +7,15 @@ from app.schemas import CreateSquad
 
 
 class SquadRepository(BaseRepository):
-    def create(self, data: CreateSquad, leader: User) -> Squad:
-        instance = Squad(**data.dict(), leader=leader)
+    def save(self, instance: Squad) -> None:
         self.session.add(instance)
         self.session.commit()
+
+    def create(self, data: CreateSquad, leader: User) -> Squad:
+        instance = Squad(**data.dict(), leader=leader)
+        self.save(instance)
+
+        return instance
 
     def get_all(self) -> list[Squad]:
         stmt = select(Squad).where(Squad.deleted_at.is_(None))
@@ -35,5 +40,4 @@ class SquadRepository(BaseRepository):
             raise Unauthorized
 
         squad.members.append(user)
-        self.session.add(squad)
-        self.session.commit()
+        self.save(squad)
