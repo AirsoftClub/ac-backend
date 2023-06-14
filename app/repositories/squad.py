@@ -40,6 +40,7 @@ class SquadRepository(BaseRepository):
             raise Unauthorized
 
         squad.members.append(user)
+
         self.save(squad)
 
     def get_by_name(self, name: str) -> Squad | None:
