@@ -93,7 +93,8 @@ Feature: Squad API
     Then I get a 404 response
     And The response JSON is:
       """
-      detail: Squad not found
+      detail:
+        - msg: Squad not found
       """
 
   Scenario: Adding a member to a squad
@@ -148,7 +149,8 @@ Feature: Squad API
     Then I get a 404 response
     And The response JSON is:
       """
-      detail: User not found
+      detail:
+       - msg: User not found
       """
 
   Scenario: Adding a member to a squad where I'm not a leader from
@@ -176,7 +178,8 @@ Feature: Squad API
     Then I get a 401 response
     And The response JSON is:
       """
-      detail: Not authorized
+      detail:
+        - msg: Not authorized
       """
 
   Scenario: Create squad

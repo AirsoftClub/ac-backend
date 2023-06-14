@@ -46,7 +46,8 @@ Feature: Auth process
     Then I get a 403 response
     And The response JSON is:
       """
-      detail: Not authenticated
+      detail:
+      - msg: Not authenticated
       """
 
   Scenario Outline: Failed registration by missing params

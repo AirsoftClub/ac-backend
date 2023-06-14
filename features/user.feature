@@ -24,7 +24,8 @@ Feature: User
     Then I get a 401 response
     And The response JSON is:
       """
-      detail: Missing Authorization Header
+      detail:
+        - msg: Missing Authorization Header
       """
 
   Scenario: Unauthorized user with invalid headers
@@ -33,7 +34,8 @@ Feature: User
     Then I get a 422 response
     And The response JSON is:
       """
-      detail: Not enough segments
+      detail:
+        - msg: Not enough segments
       """
 
   Scenario: Logged with deleted user
@@ -49,5 +51,6 @@ Feature: User
     Then I get a 404 response
     And The response JSON is:
       """
-      detail: User not found
+      detail:
+          - msg: User not found
       """

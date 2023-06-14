@@ -82,7 +82,8 @@ Feature: API Fields
     Then I get a 404 response
     And The response JSON is:
       """
-      detail: Field not found
+      detail:
+          - msg: Field not found
       """
 
   Scenario: Get Field by tag

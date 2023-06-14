@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.schemas.files import HasFiles
 
@@ -12,7 +12,7 @@ class Member(BaseModel):
 
 
 class CreateSquad(BaseModel):
-    name: str
+    name: str = Field(..., min_length=3, max_length=255)
     emblem: str | None
 
 
@@ -22,7 +22,7 @@ class SquadResponse(HasFiles, BaseModel):
 
     id: int
     name: str
-    emblem: str
+    emblem: str | None
 
 
 class SquadMembersResponse(SquadResponse):
