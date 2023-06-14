@@ -34,16 +34,19 @@ Feature: Squad API
       - name: Squad1
         id: 1
         emblem: emblem1
+        files: []
         members:
         - full_name: Name1 Lastname1
           id: 2
       - name: Squad2
         id: 2
         emblem: emblem2
+        files: []
         members: []
       - name: Squad3
         id: 3
         emblem: emblem3
+        files: []
         members:
         - full_name: Name2 Lastname2
           id: 5
@@ -77,6 +80,7 @@ Feature: Squad API
       name: Squad1
       id: 1
       emblem: emblem1
+      files: []
       members:
       - full_name: Name1 Lastname1
         id: 2
@@ -97,6 +101,7 @@ Feature: Squad API
       """
       - name: Squad1
         emblem: emblem1
+        files: []
         members: []
         leader: john_doe@email.com
       """
@@ -122,6 +127,7 @@ Feature: Squad API
       name: Squad1
       id: 1
       emblem: emblem1
+      files: []
       members:
       - full_name: New Member
         id: 2
@@ -185,6 +191,7 @@ Feature: Squad API
       id: 1
       name: New Squad
       emblem: new emblem
+      files: []
       members: []
       """
 
@@ -206,6 +213,7 @@ Feature: Squad API
       id: 1
       name: New Squad
       emblem: new emblem
+      files: []
       members: []
       """
     And I do a POST request to "/squads/1/members/" with the following data:
@@ -219,7 +227,31 @@ Feature: Squad API
       id: 1
       name: New Squad
       emblem: new emblem
+      files: []
       members:
         - full_name: Some User
           id: 2
+      """
+
+  Scenario: Adding images to the squad
+    Given These squads exists with the following data
+      """
+      - name: Squad1
+        emblem: emblem1
+        leader: john_doe@email.com
+        members: []
+      """
+    Then I do a PUT request to "/squads/1/images/" with 3 images in the form data
+    And I get a 200 response
+    Then I do a GET request to "/squads/1/"
+    And The response JSON is:
+      """
+      id: 1
+      name: Squad1
+      emblem: emblem1
+      files:
+        - path: /squads/1/fake_uuid4.jpg
+        - path: /squads/1/fake_uuid4.jpg
+        - path: /squads/1/fake_uuid4.jpg
+      members: []
       """

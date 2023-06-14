@@ -7,11 +7,13 @@ from app.schemas import CreateSquad
 
 
 class SquadRepository(BaseRepository):
-    def create(self, data: CreateSquad, leader: User) -> Squad:
-        instance = Squad(**data.dict(), leader=leader)
+    def save(self, instance: Squad) -> None:
         self.session.add(instance)
         self.session.commit()
-        self.session.refresh(instance)
+
+    def create(self, data: CreateSquad, leader: User) -> Squad:
+        instance = Squad(**data.dict(), leader=leader)
+        self.save(instance)
 
         return instance
 
@@ -38,5 +40,4 @@ class SquadRepository(BaseRepository):
             raise Unauthorized
 
         squad.members.append(user)
-        self.session.add(squad)
-        self.session.commit()
+        self.save(squad)
