@@ -1,12 +1,10 @@
-from fastapi import Depends, FastAPI, Request, status
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi_health import health
 from fastapi_jwt_auth import AuthJWT
-from fastapi_jwt_auth.exceptions import AuthJWTException
 
-from app.core.exceptions import ResourceNotFound, Unauthenticated, Unauthorized
+from app.core.exceptions import register_exception_handler
 from app.core.settings import Settings
 from app.dependencies import get_current_user
 from app.endpoints import (
@@ -59,32 +57,7 @@ def create_app():
         return Settings()
 
     # Exception handlers
-    @app.exception_handler(ResourceNotFound)
-    def handle_resource_not_found(request: Request, exc: ResourceNotFound):
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={"detail": f"{exc.resource} not found"},
-        )
-
-    @app.exception_handler(Unauthorized)
-    def handle_unauthorized(request: Request, exc: Unauthorized):
-        return JSONResponse(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            content={"detail": "Not authorized"},
-        )
-
-    @app.exception_handler(Unauthenticated)
-    def handle_unauthenticated(request: Request, exc: Unauthenticated):
-        return JSONResponse(
-            status_code=status.HTTP_403_FORBIDDEN,
-            content={"detail": "Not authenticated"},
-        )
-
-    @app.exception_handler(AuthJWTException)
-    def authjwt_exception_handler(request: Request, exc: AuthJWTException):
-        return JSONResponse(
-            status_code=exc.status_code, content={"detail": exc.message}
-        )
+    register_exception_handler(app)
 
     # Register admin
     register_admin(app)
