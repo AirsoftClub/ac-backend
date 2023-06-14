@@ -1,12 +1,12 @@
-from app.services import SquadService
-from app.schemas import AddMemberRequest, CreateSquad, SquadMembersResponse
-from app.repositories import SquadRepository, UserRepository
-from app.models import User
-from app.dependencies import get_current_user, get_repository, get_settings
-from app.core.settings import Settings
-from app.core.exceptions import Unauthorized
 from fastapi import APIRouter, Depends, File, UploadFile
 
+from app.core.exceptions import Unauthorized
+from app.core.settings import Settings
+from app.dependencies import get_current_user, get_repository, get_settings
+from app.models import User
+from app.repositories import SquadRepository, UserRepository
+from app.schemas import AddMemberRequest, CreateSquad, SquadMembersResponse
+from app.services import SquadService
 
 router = APIRouter()
 
