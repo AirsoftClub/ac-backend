@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class Member(BaseModel):
@@ -11,7 +11,12 @@ class Member(BaseModel):
 
 class CreateSquad(BaseModel):
     name: str
-    emblem: str
+
+    @validator("name")
+    def validate_non_empty_name(cls, value) -> str:
+        if len(value) < 3:
+            raise ValueError("Name too short.")
+        return value
 
 
 class SquadResponse(BaseModel):
@@ -20,7 +25,7 @@ class SquadResponse(BaseModel):
 
     id: int
     name: str
-    emblem: str
+    emblem: str | None
 
 
 class SquadMembersResponse(SquadResponse):

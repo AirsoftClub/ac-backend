@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Depends
 
+from app.core.exceptions import SquadNameAlreadyInUse
 from app.dependencies import get_current_user, get_repository
+from app.dependencies.db import get_db
 from app.models import User
+from app.models.base import SessionLocal
+from app.models.squad import Squad
 from app.repositories import SquadRepository, UserRepository
 from app.schemas import AddMemberRequest, CreateSquad, SquadMembersResponse
 
@@ -42,5 +46,9 @@ def create_squad(
     squad_data: CreateSquad,
     current_user: User = Depends(get_current_user),
     squad_repository: SquadRepository = Depends(get_repository(SquadRepository)),
+    db_session: SessionLocal = Depends(get_db),
 ):
+    name_count = db_session.query(Squad).filter(Squad.name == squad_data.name).count()
+    if name_count:
+        raise SquadNameAlreadyInUse
     return squad_repository.create(squad_data, leader=current_user)
