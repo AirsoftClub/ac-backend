@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 
+from app.schemas.files import HasFiles
+
 
 class Member(BaseModel):
     class Config:
@@ -13,7 +15,7 @@ class CreateSquad(BaseModel):
     name: str = Field(..., min_length=3, max_length=255)
 
 
-class SquadResponse(BaseModel):
+class SquadResponse(HasFiles, BaseModel):
     class Config:
         orm_mode = True
 

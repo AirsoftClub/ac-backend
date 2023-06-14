@@ -1,4 +1,6 @@
+import itertools
 from tempfile import TemporaryFile
+from unittest.mock import patch
 
 import respx
 import yaml
@@ -16,11 +18,12 @@ def do_request(context, verb, url):
 
 @step('I do a {verb} request to "{url}" with {amount:d} images in the form data')
 def do_request_with_image_body(context, verb, url, amount):
-    files = [("files", TemporaryFile()) for _ in range(amount)]
-
-    context.response = getattr(context.client, verb.lower())(
-        url, headers=context.headers, files=files
-    )
+    with patch("app.services.squad_service.uuid4") as fake_uuid4:
+        fake_uuid4.side_effect = itertools.cycle(["fake_uuid4"])
+        files = [("files", TemporaryFile()) for _ in range(amount)]
+        context.response = getattr(context.client, verb.lower())(
+            url, headers=context.headers, files=files
+        )
 
 
 @step('I do a {verb} request to "{url}" with the following data')
