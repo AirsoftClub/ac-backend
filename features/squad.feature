@@ -198,6 +198,33 @@ Feature: Squad API
       members: []
       """
 
+  Scenario: Squad has unique name
+    When I do a POST request to "/squads/" with the following data:
+      """
+      name: New Squad
+      emblem: new emblem
+      """
+    And I get a 200 response
+    And The response JSON is:
+      """
+      id: 1
+      name: New Squad
+      emblem: new emblem
+      files: []
+      members: []
+      """
+    Then I do a POST request to "/squads/" with the following data:
+      """
+      name: New Squad
+      emblem: new emblem
+      """
+    And I get a 409 response
+    And The response JSON is:
+      """
+      detail:
+      - msg: Squad already exists
+      """
+
   Scenario: Create squad and assign members
     Given A user exists with the following data:
       """
